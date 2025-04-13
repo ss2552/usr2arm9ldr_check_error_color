@@ -25,4 +25,4 @@ _error:
 
 .global result
 result:
-    .word 0
+    .word 0x00000000
