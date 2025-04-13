@@ -1,4 +1,4 @@
-*マウント GREEN*
-*オープン YELLOW*
-*リード MAGENTA*
-*エラー無し CYAN*
+## *マウント GREEN*
+## *オープン YELLOW*
+## *リード MAGENTA*
+## *エラー無し CYAN*
