@@ -107,7 +107,7 @@ static void doFirmlaunch(void)
         *(vu32 *)0x1FFFFFFC = 0x1FFFF400;
     else
     {
-        *(vu32 *)0x1FFFF430 = aaaaa_result;
+        *(vu32 *)0x1FFFF42C = aaaaa_result;
         *(vu32 *)0x1FFFFFFC = 0x1FFFF404; // fill the screens with red
         while(true);
     }
