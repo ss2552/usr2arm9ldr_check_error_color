@@ -28,14 +28,17 @@ static const struct fb fbs[2] =
 };
 
 static FATFS sdFs;
-bool mount_result;
-bool open_result;
-bool read_result;
+u32 aaaaa_result = 0;
 
 static bool mountFs(void)
 {
-    mount_result = f_mount(&sdFs, "0:", 1) == FR_OK;
-    return mount_result;
+    if(f_mount(&sdFs, "0:", 1) == FR_OK){
+        return true;
+    }
+    
+    aaaaa_result |= 0x1;
+    return false;
+
 }
 
 static bool fileRead(void *dest, const char *path, u32 maxSize)
@@ -45,15 +48,16 @@ static bool fileRead(void *dest, const char *path, u32 maxSize)
     FIL f;
 
     if(f_open(&f,path,1) != FR_OK){
-        return open_result;
-    }else{
-        open_result = true;
+        aaaaa_result |= 0x100;
+        return false;
     }
 
     result = f_read(&f,dest, maxSize, (unsigned int *)&ret);
+    if(result != FR_OK){
+        aaaaa_result |= 0x10000;
+    }
 
-    read_result = result == FR_OK && ret != 0;
-    return read_result;
+    return result == FR_OK && ret != 0;
 }
 
 static bool readPayload(void)
@@ -103,23 +107,8 @@ static void doFirmlaunch(void)
         *(vu32 *)0x1FFFFFFC = 0x1FFFF400;
     else
     {
-        if(!mount_result){
-            // マウント
-            *(vu32 *)0x1FFFFFFC = 0x1FFFF404; // fill the screens with FILL_COLOR_GREEN
-            
-        }else if(!open_result){
-            // オープン
-            *(vu32 *)0x1FFFFFFC = 0x1FFFF408; // fill the screens with FILL_COLOR_YELLOW
-
-        }else if(!read_result){
-            // リード
-            *(vu32 *)0x1FFFFFFC = 0x1FFFF40c; // fill the screens with FILL_COLOR_MAGENTA
-
-        }else{
-
-            *(vu32 *)0x1FFFFFFC = 0x1FFFF410; // fill the screens with FILL_COLOR_CYAN
-
-        }
+        *(vu32 *)0x1FFFF42C = aaaaa_result;
+        *(vu32 *)0x1FFFFFFC = 0x1FFFF404; // fill the screens with red
         while(true);
     }
 }
