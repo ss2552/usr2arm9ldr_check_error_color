@@ -12,6 +12,8 @@
 #define SCREEN_TOP_FBSIZE    (3 * SCREEN_TOP_WIDTH * SCREEN_HEIGHT)
 #define SCREEN_BOTTOM_FBSIZE (3 * SCREEN_BOTTOM_WIDTH * SCREEN_HEIGHT)
 
+extern u32 result
+
 struct fb {
      u8 *top_left;
      u8 *top_right;
@@ -65,18 +67,16 @@ static void clearScreens(const struct fb *fb)
 void error(void){
     
     // 1 問題 0 問題無し
-
-    // u32 result_address = *(vu32 *)(0x1FFFF400);
     
-    if(*(u32 *)0x1FFFF430 & 0x1){
+    if((*(u32 *)0x1FFFF42C) & 0x1){
         // マウント
         LCD_TOP_FILL_REG = LCD_FILL_ENABLE | 0x00FF00; // GREEN
         
-    }else if(*(u32 *)0x1FFFF430 & 0x100){
+    }else if((*(u32 *)0x1FFFF42C) & 0x100){
         // オープン
         LCD_TOP_FILL_REG = LCD_FILL_ENABLE | 0x00FFFF; // YELLOW
 
-    }else if(*(u32 *)0x1FFFF430 & 0x10000){
+    }else if((*(u32 *)0x1FFFF42C) & 0x10000){
         // リード
         LCD_TOP_FILL_REG = LCD_FILL_ENABLE | 0xFF00FF; // MAGENTA
 
