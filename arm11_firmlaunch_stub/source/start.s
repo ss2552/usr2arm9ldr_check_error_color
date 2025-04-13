@@ -20,6 +20,9 @@ _error:
     sub sp, pc, #8
     b error
 
+@ 0x1FFFF400 | (0x30 = 12 x 0x4)
+@ 0x1FFFF42c
+
 .global result
 result:
     .word 0x00000000
