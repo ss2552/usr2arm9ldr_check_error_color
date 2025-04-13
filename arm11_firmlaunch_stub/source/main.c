@@ -12,8 +12,6 @@
 #define SCREEN_TOP_FBSIZE    (3 * SCREEN_TOP_WIDTH * SCREEN_HEIGHT)
 #define SCREEN_BOTTOM_FBSIZE (3 * SCREEN_BOTTOM_WIDTH * SCREEN_HEIGHT)
 
-extern u32 result
-
 struct fb {
      u8 *top_left;
      u8 *top_right;
